@@ -15,17 +15,35 @@ technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/
 types:
   - app
 inputs:
-  - label: Input Example
+  - label: Informe a descrição do projeto
     type: text
-    name: example
-    default: any text
-  - label: Example of number
-    type: int
-    name: any_number
-    default: "10"
-  - label: Example of list
-    type: multiselect
-    name: any_list
-    items:
-      - item1
-      - item2
+    name: project_description
+    default: Projeto Criado com StackSpot
+hooks:
+  - type: run
+    trigger: before-render
+    mac:
+      - rm index.js
+    linux:
+      - rm index.js
+    windows:
+      - del index.js
+  - type: run
+    trigger: after-render
+    commands:
+      - echo "Instalando dependências..."
+  - type: run
+    trigger: after-render
+    mac:
+      - npm install
+      - npm run build
+    linux:
+      - npm install
+      - npm run build
+    windows:
+      - npm.cmd install
+      - npm.cmd run build
+  - type: run
+    trigger: after-render
+    commands:
+      - echo "Teste o plugin executando `node index`"
